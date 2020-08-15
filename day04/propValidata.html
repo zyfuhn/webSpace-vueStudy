@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../js/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+    </div>
+</body>
+<script>
+    var myComponent = {
+        props:{
+            // 基础的类型检查， null 和 undefined 会通过
+            propA: Number,
+            // 多个类型
+            propB: [String, Number],
+            // 必填字符串
+            propC: {
+                type: String,
+                required: true
+            },
+            // 带有默认值的数字
+            propD: {
+                type: Number,
+                default: 100
+            },
+            // 带有默认值的对象
+            propE: {
+                type: Object,
+                // 对象通过函数返回
+                default: function (){
+                    return {message: 'Hello'}
+                }
+            },
+            // 自定义校验
+            propF: {
+                // 值中必修有success, warning, danger 字样
+                validator: function (value) {
+                    return ['success', 'wraning', 'danger'].indexOf(value) !== -1
+                }
+            }
+        }
+    }
+
+    var app = new Vue({
+        el: '#app',
+        data: {
+            
+        }
+    })
+</script>
+</html>

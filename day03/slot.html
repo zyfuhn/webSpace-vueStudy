@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>插槽分发内容</title>
+    <script src="../js/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <!-- 通过插槽分发内容， 组件标签的text内容传递到组件中， 
+            组件中通过slot 标签接受
+        -->
+        <alert-box>Something bad happened.</alert-box>
+    </div>
+    
+</body>
+<script>
+    Vue.component('alert-box', {
+        template: '<div class="demo-alert-box">'+
+        '<strong>Error!</strong>'+
+       ' <slot></slot></div>'
+    })
+
+    var app = new Vue({
+        el: '#app',
+        data: {
+            
+        }
+    })
+</script>
+</html>

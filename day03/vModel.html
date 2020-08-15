@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../js/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <!-- 步骤1： 正常使用v-model进行数据绑定 -->
+        <span>input1</span>: <input type="text" v-model="searchText">
+        <p>{{searchText}}</p>
+        
+        <!-- 步骤2：v-model指令的拆分 -->
+        <span>input2</span>: <input v-bind:value="searchText" v-on:change="searchText = $event.target.value">
+        <p>{{searchText}}</p>
+        
+        <!-- 步骤3： 定义组件的input -->
+        <span>input3</span>: 
+        <custom-input v-bind:value="searchText" v-on:input="searchText = $event"></custom-input>
+        <p>{{searchText}}</p>
+        
+        <!-- 
+            由于步骤1和步骤2是相同的操作， 所以步骤3 等同于步骤4
+         -->
+         <span>input4</span>: 
+         <custom-input v-model="searchText"></custom-input>
+         <p>{{searchText}}</p>
+    </div>
+</body>
+<script>
+    Vue.component('custom-input', {
+        props: ['value'],
+        template: '<input v-bind:value="value" v-on:input="$emit(\'input\', $event.target.value)">'
+    })
+
+    var app = new Vue({
+        el: '#app',
+        data: {
+            searchText : ''
+        }
+    })
+</script>
+</html>

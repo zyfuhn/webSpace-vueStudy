@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../js/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <div v-bind:style="{fontSize: blogFontSize + 'em'}" >
+            <!-- <blog-post v-on:enlarge="blogFontSize +=0.1" v-for="(post, index) in blogs" :key="index" :post="post" ></blog-post> -->
+
+            <blog-post v-on:enlarge="larger" v-for="(post, index) in blogs" :key="index" :post="post" ></blog-post>
+        </div>
+    </div>
+</body>
+<script>
+    Vue.component('blog-post', {
+        props: ['post'],
+        // 每个组件必须有一个根元素
+        template: '<div class="blog-post">'+
+            '<h3>{{post.title}}</h3>'+
+            '<button @click="$emit(\'enlarge\', 0.2)" >Enlarge</button>'+
+            '<div v-html="post.content"></div>'+
+            '</div>'
+    })
+
+    var app = new Vue({
+        el: '#app',
+        data: {
+            blogFontSize: 1,
+            blogs: [
+                {
+                    id: 1, 
+                    title: '1111',
+                    content: '<p>地方三房范德萨范德萨</p>'
+                },
+                {
+                    id: 2, 
+                    title: '2222',
+                    content: '<p style="color:red">地fas德萨范德萨</p>'
+                },
+                {
+                    id: 3, 
+                    title: '4444',
+                    content: '<p style="color:blue">地方三房范德萨范德萨</p>'
+                },
+            ]
+        },
+        methods: {
+            larger: function(size) {
+                this.blogFontSize += size
+            }
+        },
+    })
+
+</script>
+</html>

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>单向数据流</title>
+    <script src="../js/vue.js"></script>
+</head>
+<body>
+    <!-- 
+单向数据流
+所有的prop 都使得其父子之间形成了一个单向下行绑定：
+父级prop更新会向下流动到子组件中，但是反过来不行。
+防止从子组件意外变更父级组件的状态，
+从而导致应用的数据流向难以理解。
+
+每次父级组件发生变更时，子组件中所有的prop都会刷新为最新的值。
+这意味着不应该在子组件内部改变prop
+如果需要对父级组件传递的prop进行相关的处理怎么办？
+1. 定义一个组件本地的data property 并将prop用作其初始值
+2. 将prop以一种原始的值传入，用于计算属性中
+     -->
+    <div id="app">
+        <li is="my-li"
+        v-bind:initial-counter="initialCounter" v-on:add="addCounter"></li>
+    </div>
+</body>
+<script>
+    var myComponent = {
+        props: ['initialCounter'],
+        data: function(){
+            /*
+            1. 定义一个组件本地的data property 并将prop用作其初始值, 
+            父级prop属性的变化，不会传递到组件中的 counter属性
+            prop只是作为组件属性counter的初始值
+            */
+            return {
+                counter: this.initialCounter
+            }
+        },
+        computed: {
+            /*
+                使用计算属性，达到监听prop属性的变化的目的
+            */
+            addCount: function(){
+                return this.initialCounter
+            }
+        },
+        template: '<div><li>组件counter：{{counter}}</li><li>组件计算属性counter：{{addCount}}</li><li>app initialCounter:{{initialCounter}}</li><button v-on:click="addComponentCount">组件counter新增</button><button v-on:click="$emit(\'add\')">appAdd</button></div>',
+        methods: {
+            addComponentCount() {
+                this.counter = this.counter + 1
+            }
+        },
+    }
+
+    var app = new Vue({
+        el: '#app',
+        data: {
+            initialCounter: 0
+        },
+        components:{
+            'my-li': myComponent
+        },
+        methods: {
+            addCounter: function(){
+                this.initialCounter = this.initialCounter+1
+            }
+        },
+    })
+</script>
+</html>

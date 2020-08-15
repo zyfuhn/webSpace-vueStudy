@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>自定义事件</title>
+    <script src="../js/vue.js"></script>
+</head>
+<body>
+    <!-- 
+        事件名称---推荐使用 kabab-case的事件名
+
+     -->
+    <div id="app">
+        <base-checkbox v-model="weatherChecked"></base-checkbox>
+        <p>{{weatherChecked}} </p>
+    </div>
+</body>
+<script>
+    var baseCheckBox = {
+        // 使用model 自定义 v-model
+        model: {
+            prop: 'checked',
+            event: 'change'
+        },
+        props: {
+            checked: Boolean
+        },
+        template: '<input type="checkbox" v-bind:checked="checked" v-on:change="$emit(\'change\', $event.target.checked)">'
+    }
+    
+    var app = new Vue({
+        el: '#app',
+        data: {
+            weatherChecked: true
+        },
+        components: {
+            'base-checkbox': baseCheckBox
+        }
+    })
+</script>
+</html>

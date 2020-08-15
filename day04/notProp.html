@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>非 prop</title>
+    <script src="../js/vue.js"></script>
+</head>
+<body>
+    <!-- 
+        非prop 的 attribute,
+        指向一个组件，但是在组件的props 中没有相应的prop 定义的属性。
+
+        非prop的attribute 会被添加到组件的根元素上
+
+        对于大部分的attribute 来说，
+        从外部提供给组件的值会替换掉组件内部设置好的值。
+        所以如果传入 type='text' 就会替换掉 组件内部的 type='date'
+        class 和style 会稍微智能一些， 两边的值会合并起来
+
+        如果不希望组件的根元素继承attribute, 可以在组件选项中设置
+        inheritAtts: false, 这不会影响style 和class 的绑定
+        inheritAtts: false 适合配合实例的 $attrs property 使用，
+        $attrs 包含了传递给一个组件的 attribute 名称和值
+     -->
+    <div id="app">
+        <my-input v-model="message" lable= "消息" placeholder="这是个input" ></my-input>
+    </div>
+    
+</body>
+<script>
+    var myComponent = {
+        props: ['lable', 'value'],
+        // 不希望组件的根元素继承attribute
+        inheritAttrs: false,
+        template: '<div>'+
+        '<label>{{lable}} </label>'+
+        // 将组件标签上的 属性绑定到 input表单上
+        '<input v-bind="$attrs" v-bind:value="value" v-on:input="$emit(\'input\', $event.target.value)" >'+
+        '</div>'
+    }
+
+    var app = new Vue({
+        el: '#app',
+        data: {
+          message: ''  
+        },
+        components: {
+           'my-input': myComponent 
+        }
+    })
+</script>
+</html>

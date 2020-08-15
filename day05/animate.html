@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../js/vue.js"></script>
+    <style>
+        /* 
+        过渡类型
+        v-enter
+        v-enter-active
+        v-enter-to
+
+        v-leave
+        v-leave-active
+        v-leave-to
+         */
+        .ani-enter-active, .ani-leave-active{
+            transition: opacity .5s;
+        }
+        .ani-enter, .ani-leave-to {
+            opacity: 0;
+        }
+
+        /* css过渡---设置不同的进入和离开动画  */
+        /* 设置持续时间和动画函数 */
+        .slide-fade-enter-active {
+            transition: all .3s ease;
+        }
+        .slide-fade-leave-active {
+            transition: all .8s cubic-bezier(1, 0.5, 0.5, 1);
+        }
+        .slide-fade-enter, .slide-fade-leave-to {
+            transform: translateX(10px);
+            opacity: 0;
+        }
+
+        /* css动画 */
+        .bounce-enter-active {
+            animation: bounce-in .5s;
+        }
+        .bounce-leave-active {
+            animation: bounce-in .5s reverse;
+        }
+
+        @keyframes bounce-in {
+            0% {
+                transform: scale(0);
+            }
+            50% {
+                transform: scale(1.5);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 
+        css过渡动画，动画中自动应用class
+        配合第三方css动画库  animate.css
+        过渡钩子函数中使用javascript 直接操作dom
+        配合第三方 javaScript动画库，velocity.js
+     -->
+
+     <!-- 
+        单元素/组件过渡
+        transition 组件
+
+      -->
+    <div id="app">
+        <!-- css过渡  -->
+        <button v-on:click="show= !show">toggle</button>
+        <!-- name 指定动画相关的类名开头 
+            vue自动嗅探目标元素是否应用了css过渡动画，如果是，在恰当的时机添加、删除css类
+        -->
+        <!-- <transition name="ani">
+            <p v-if="show">hello</p>
+        </transition>
+        <transition name="slide-fade">
+            <p v-if="show">Hello</p>
+        </transition> -->
+
+        <!-- css 动画 -->
+        <!-- css动画用法与css过渡相同，
+            区别在于v-enter类名在节点插入后不会立即删除，而是在animationend 事件触发时删除
+         -->
+         <transition name="bounce">
+            <p v-if="show">范德萨范德萨范德萨范德萨</p>
+         </transition>
+    </div>
+</body>
+<script>
+    var app = new Vue({
+        el: '#app',
+        data: {
+            show: true
+        }
+    })
+</script>
+</html>
